@@ -24,8 +24,6 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(User user) {
         String roleName = user.getRole().name();
 
-        if (!roleName.startsWith("ROLE_")) roleName = "ROLE_" + roleName;
-
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(roleName));
 
         return new UserDetailsImpl(

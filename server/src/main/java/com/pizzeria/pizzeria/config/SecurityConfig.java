@@ -1,6 +1,7 @@
 package com.pizzeria.pizzeria.config;
 
 import com.pizzeria.pizzeria.security.AuthTokenFilter;
+import com.pizzeria.pizzeria.security.JwtUtils;
 import com.pizzeria.pizzeria.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +30,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtils jwtUtils;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        return new AuthTokenFilter(jwtUtils, userDetailsService);
     }
 
     @Bean
@@ -46,6 +48,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

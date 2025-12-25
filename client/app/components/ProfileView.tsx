@@ -30,6 +30,9 @@ export default function ProfileView() {
     const fetchOrders = async () => {
       try {
         const response = await api.get("/orders/my-orders");
+
+        console.log(response);
+
         setOrders(response.data);
       } catch (error) {
         console.error("Error al obtener órdenes:", error);
@@ -164,10 +167,7 @@ export default function ProfileView() {
                         >
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                             <Image
-                              src={
-                                item.pizza?.imageUrl ||
-                                "https://picsum.photos/seed/pizz/100/100"
-                              }
+                              src={item.pizza?.imageUrl}
                               alt={item.pizza?.name}
                               fill
                               className="object-cover"
