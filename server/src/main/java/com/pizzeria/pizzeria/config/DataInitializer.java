@@ -50,9 +50,9 @@ public class DataInitializer {
             List<Pizza> savedPizzas = new ArrayList<>();
             if (pizzaRepository.count() == 0) {
                 List<Pizza> defaultPizzas = List.of(
-                        new Pizza(null, "Margherita", "Classic tomato sauce and mozzarella", 12.50, "https://images.unsplash.com/photo-1574071318508-1cdbad80ad50", true),
-                        new Pizza(null, "Pepperoni", "Tomato sauce and spicy pepperoni", 15.00, "https://images.unsplash.com/photo-1628840042765-356cda07504e", true),
-                        new Pizza(null, "Four Cheese", "Mozzarella, parmesan, gorgonzola, and fontina", 16.00, "https://images.unsplash.com/photo-1513104890138-7c749659a591", true)
+                        new Pizza(null, "Margherita", "Classic tomato sauce and mozzarella", 12.50, "https://res.cloudinary.com/da2yochcc/image/upload/v1766604841/pizzeria_app/i6oqtnbjliaobllbmkax.webp", true),
+                        new Pizza(null, "Pepperoni", "Tomato sauce and spicy pepperoni", 15.00, "https://res.cloudinary.com/da2yochcc/image/upload/v1766604837/pizzeria_app/orh59a9faatxz9iy6gpx.jpg", true),
+                        new Pizza(null, "Four Cheese", "Mozzarella, parmesan, gorgonzola, and fontina", 16.00, "https://res.cloudinary.com/da2yochcc/image/upload/v1766604837/pizzeria_app/pkc0plh4szranyoyf7f8.jpg", true)
                 );
                 savedPizzas = pizzaRepository.saveAll(defaultPizzas);
                 System.out.println("---------- DEFAULT PIZZAS CREATED ----------");
