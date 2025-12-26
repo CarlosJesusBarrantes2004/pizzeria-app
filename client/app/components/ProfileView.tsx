@@ -14,11 +14,12 @@ import {
 import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import api from "@/lib/axios";
+import { Order, OrderItem } from "@/types";
 
 export default function ProfileView() {
   const { user } = useApp();
   const router = useRouter();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,6 +44,8 @@ export default function ProfileView() {
 
     fetchOrders();
   }, [user, router]);
+
+  console.log(orders);
 
   const getStatusStyle = (status: string) => {
     switch (status.toUpperCase()) {
@@ -93,7 +96,7 @@ export default function ProfileView() {
             <h2 className="text-2xl font-bold text-white">{user.username}</h2>
             <p className="text-gray-400">{user.email}</p>
             <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-xs text-orange-500 font-medium">
-              Pizza Lover Status: Gold 🏆
+              Estado de amante de la pizza: Oro 🏆
             </div>
           </div>
         </div>
@@ -121,7 +124,7 @@ export default function ProfileView() {
             <div className="text-center py-12 bg-[#1a1a1a] rounded-2xl border border-dashed border-white/10">
               <Package className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <p className="text-gray-400">
-                You haven't placed any orders yet.
+                Aún no ha realizado ningún pedido.
               </p>
             </div>
           ) : (
@@ -138,7 +141,7 @@ export default function ProfileView() {
                       <div className="space-y-1">
                         <div className="flex items-center gap-3">
                           <span className="text-lg font-bold text-white">
-                            Order #{order.id}
+                            Pedido #{order.id}
                           </span>
                           <span
                             className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border ${getStatusStyle(
@@ -160,32 +163,32 @@ export default function ProfileView() {
 
                     {/* Items de la orden mapeados desde el backend */}
                     <div className="space-y-3">
-                      {order.items?.map((item: any, idx: number) => (
+                      {order.items?.map((item: OrderItem, idx: number) => (
                         <div
                           key={idx}
                           className="flex items-center gap-4 bg-black/30 p-3 rounded-xl"
                         >
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                             <Image
-                              src={item.pizza?.imageUrl}
-                              alt={item.pizza?.name}
+                              src={item.pizzaImage}
+                              alt={item.pizzaName}
                               fill
                               className="object-cover"
                             />
                           </div>
                           <div className="flex-1">
                             <h4 className="font-medium text-white">
-                              {item.pizza?.name}
+                              {item.pizzaName}
                             </h4>
                             <p className="text-xs text-gray-500">
-                              Unit Price: ${item.pizza?.price}
+                              Precio Unitario: ${item.unitPrice}
                             </p>
                           </div>
                           <div className="text-sm text-gray-300">
-                            Qty: {item.quantity}
+                            Cantidad: {item.quantity}
                           </div>
                           <div className="text-sm font-medium text-white">
-                            ${(item.pizza?.price * item.quantity).toFixed(2)}
+                            ${(item.unitPrice * item.quantity).toFixed(2)}
                           </div>
                         </div>
                       ))}
@@ -194,10 +197,10 @@ export default function ProfileView() {
 
                   <div className="px-6 py-4 bg-white/5 border-t border-white/5 flex justify-end gap-4">
                     <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-                      <Receipt className="h-4 w-4" /> View Receipt
+                      <Receipt className="h-4 w-4" /> Ver Recibo
                     </button>
                     <button className="flex items-center gap-2 text-sm text-orange-500 font-medium hover:text-orange-400 transition-colors">
-                      <RefreshCcw className="h-4 w-4" /> Reorder
+                      <RefreshCcw className="h-4 w-4" /> Reordenar
                     </button>
                   </div>
                 </motion.div>

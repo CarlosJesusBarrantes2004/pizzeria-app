@@ -1,7 +1,9 @@
 package com.pizzeria.pizzeria.service;
 
 import com.pizzeria.pizzeria.dto.order.OrderItemRequest;
+import com.pizzeria.pizzeria.dto.order.OrderItemResponse;
 import com.pizzeria.pizzeria.dto.order.OrderRequest;
+import com.pizzeria.pizzeria.dto.order.OrderResponse;
 import com.pizzeria.pizzeria.model.Order;
 import com.pizzeria.pizzeria.model.OrderItem;
 import com.pizzeria.pizzeria.model.Pizza;
@@ -50,7 +52,22 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getMyOrders(String username) {
-        return orderRepository.findByUserUsernameOrderByCreatedAtDesc(username);
+    @Transactional(readOnly = true)
+    public List<OrderResponse> getMyOrders(String username) {
+        List<Order> orders = orderRepository.findByUserUsernameOrderByCreatedAtDesc(username);
+
+        return orders.stream().map(order -> new OrderResponse(
+                        order.getId(),
+                        order.getTotalAmount(),
+                        order.getStatus().name(),
+                        order.getCreatedAt(),
+                        order.getItems().stream().map(item -> new OrderItemResponse(
+                                item.getPizza().getName(),
+                                item.getPizza().getImageUrl(),
+                                item.getUnitPrice(),
+                                item.getQuantity()
+                        )).toList()
+                ))
+                .toList();
     }
 }

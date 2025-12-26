@@ -16,4 +16,19 @@ export interface User {
   role: string;
 }
 
+export interface OrderItem {
+  pizzaName: string;
+  pizzaImage: string;
+  unitPrice: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: number;
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  items: OrderItem[];
+}
+
 export type AuthMode = "LOGIN" | "REGISTER" | null;
